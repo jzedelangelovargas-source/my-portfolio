@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 
 const skills = ["Java", "HTML", "CSS", "JavaScript", "Tailwind CSS"];
@@ -46,7 +44,7 @@ function App() {
         allRevealed[element.dataset.reveal] = true;
       });
       setRevealed(allRevealed);
-      return;
+      return undefined;
     }
 
     const observer = new IntersectionObserver(
@@ -94,18 +92,14 @@ function App() {
     event.preventDefault();
 
     const form = event.currentTarget;
-    const formData = new FormData(form);
-
     setIsSubmitting(true);
     setContactMessage("");
 
     try {
       const response = await fetch("https://formspree.io/f/myekglwj", {
         method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
-        },
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
       });
 
       if (!response.ok) {
@@ -236,7 +230,7 @@ function App() {
             <div className="flex justify-center">
               <div className="rounded-full border-2 border-cyan-500/50 bg-slate-900 p-2 shadow-2xl shadow-blue-500/20">
                 <img
-                  src="/profile.png"
+                  src={`${import.meta.env.BASE_URL}profile.png`}
                   alt="Portrait of Jzedel Vargas"
                   className="h-64 w-64 rounded-full object-cover object-top sm:h-80 sm:w-80"
                 />
@@ -479,7 +473,11 @@ function App() {
               </button>
 
               {contactMessage && (
-                <p className={`text-sm ${mutedText}`} role="status" aria-live="polite">
+                <p
+                  className={`text-sm ${mutedText}`}
+                  role="status"
+                  aria-live="polite"
+                >
                   {contactMessage}
                 </p>
               )}
